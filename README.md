@@ -1,12 +1,12 @@
-# ?? Customer Churn Prediction & Analysis System
+# 📊 Customer Churn Prediction & Analysis System
 
 An end-to-end machine learning system that predicts customer churn, explains the reasoning behind each prediction using SHAP, and serves both an analytical dashboard and a live prediction interface through Streamlit.
 
 ---
 
-## ?? Project Overview
+## 📌 Project Overview
 
-Customer churn � when a customer stops using a company's service � is one of the most costly problems in subscription-based businesses. This project builds a complete, production-style pipeline that:
+Customer churn — when a customer stops using a company's service — is one of the most costly problems in subscription-based businesses. This project builds a complete, production-style pipeline that:
 
 - Analyzes historical telecom customer data to uncover churn patterns
 - Trains and compares multiple machine learning models
@@ -16,13 +16,13 @@ Customer churn � when a customer stops using a company's service � is one of the
 
 ---
 
-## ?? Problem Statement
+## 🎯 Problem Statement
 
 Telecom companies lose significant revenue when customers churn, and by the time churn happens, it's too late to intervene. The goal of this project is to predict **which customers are at risk of churning**, and **why**, so that retention efforts can be targeted proactively rather than reactively.
 
 ---
 
-## ?? Objectives
+## 🎯 Objectives
 
 1. Identify the key factors driving customer churn
 2. Build a classification model to predict churn probability
@@ -32,9 +32,9 @@ Telecom companies lose significant revenue when customers churn, and by the time
 
 ---
 
-## ?? Dataset
+## 📂 Dataset
 
-**Source:** [Telco Customer Churn � Kaggle](https://www.kaggle.com/datasets/blastchar/telco-customer-churn)
+**Source:** [Telco Customer Churn — Kaggle](https://www.kaggle.com/datasets/blastchar/telco-customer-churn)
 
 - **Size:** 7,043 customers, 21 original columns
 - **Target variable:** `Churn` (Yes/No)
@@ -44,7 +44,7 @@ Key columns include customer demographics (gender, senior citizen status, partne
 
 ---
 
-## ??? Technologies Used
+## 🛠️ Technologies Used
 
 | Category | Tools |
 |---|---|
@@ -59,37 +59,37 @@ Key columns include customer demographics (gender, senior citizen status, partne
 
 ---
 
-## ??? Project Architecture
+## 🏗️ Project Architecture
 
 ```
 Raw Dataset (Kaggle)
-        ?
+        ↓
 Data Cleaning & Validation
-        ?
+        ↓
 Exploratory Data Analysis
-        ?
+        ↓
 Feature Engineering
-        ?
+        ↓
 Preprocessing Pipeline (ColumnTransformer)
-        ?
+        ↓
 Model Training (Logistic Regression, Random Forest, XGBoost)
-        ?
+        ↓
 Class Imbalance Handling
-        ?
+        ↓
 Hyperparameter Tuning
-        ?
+        ↓
 SHAP Explainability
-        ?
+        ↓
 Model Persistence
-        ?
+        ↓
 Streamlit Application (Dashboard + Prediction)
 ```
 
 ---
 
-## ?? Data Preprocessing
+## 🧹 Data Preprocessing
 
-- **`TotalCharges`** was loaded as a text column due to 11 blank-string entries. These were all confirmed (not assumed) to belong to customers with `tenure = 0` � brand-new customers who hadn't been billed yet � and were filled with `0` accordingly.
+- **`TotalCharges`** was loaded as a text column due to 11 blank-string entries. These were all confirmed (not assumed) to belong to customers with `tenure = 0` — brand-new customers who hadn't been billed yet — and were filled with `0` accordingly.
 - No duplicate rows were found.
 - Categorical columns like `OnlineSecurity`, `TechSupport`, etc. contained a redundant `"No internet service"` category, which was collapsed into `"No"` since it duplicated information already captured by `InternetService`.
 - `customerID` was dropped as a non-predictive identifier.
@@ -97,7 +97,7 @@ Streamlit Application (Dashboard + Prediction)
 
 ---
 
-## ?? Key EDA Findings
+## 🔍 Key EDA Findings
 
 | Factor | Finding |
 |---|---|
@@ -111,18 +111,18 @@ These patterns were later confirmed independently by SHAP feature importance, ad
 
 ---
 
-## ?? Feature Engineering
+## 🧬 Feature Engineering
 
 | Feature | Description | Rationale |
 |---|---|---|
 | `TenureGroup` | Binned tenure into 4 groups | Captures the non-linear, front-loaded nature of churn risk |
-| `NumServices` | Count of subscribed add-on services (0�6) | Proxies customer "investment" in the platform |
+| `NumServices` | Count of subscribed add-on services (0–6) | Proxies customer "investment" in the platform |
 | `HasInternetAndPhone` | Binary flag for bundled service | Tests whether bundling affects retention |
 | `AvgMonthlySpend` | `TotalCharges / tenure` | Highlights potential spend-rate inconsistencies |
 
 ---
 
-## ?? Machine Learning Models
+## 🤖 Machine Learning Models
 
 Three models were trained and compared on identical preprocessed data:
 
@@ -132,7 +132,7 @@ Three models were trained and compared on identical preprocessed data:
 | Random Forest | 79.2% | 63.5% | 50.8% | 56.5% | 82.5% |
 | XGBoost | 77.6% | 59.4% | 50.0% | 54.3% | 81.6% |
 
-**Initial finding:** untuned Logistic Regression outperformed both ensemble models � a reminder that model complexity isn't a guarantee of better performance without tuning.
+**Initial finding:** untuned Logistic Regression outperformed both ensemble models — a reminder that model complexity isn't a guarantee of better performance without tuning.
 
 ### Addressing Class Imbalance
 
@@ -140,16 +140,16 @@ Class weighting and SMOTE were tested (applied only to training data, to avoid l
 
 | Approach | Recall | F1-Score |
 |---|---|---|
-| Original models | ~50�52% | ~0.54�0.58 |
-| Class-weighted / SMOTE | **~66�79%** | **~0.59�0.62** |
+| Original models | ~50–52% | ~0.54–0.58 |
+| Class-weighted / SMOTE | **~66–79%** | **~0.59–0.62** |
 
-Addressing the imbalance substantially improved recall � the model's ability to actually catch churners � at a reasonable cost to precision.
+Addressing the imbalance substantially improved recall — the model's ability to actually catch churners — at a reasonable cost to precision.
 
 ### Hyperparameter Tuning
 
 `GridSearchCV` (Logistic Regression) and `RandomizedSearchCV` (XGBoost) were used with 5-fold stratified cross-validation, optimizing for F1-score.
 
-## ? Final Model: Tuned XGBoost
+## ✅ Final Model: Tuned XGBoost
 
 | Metric | Score |
 |---|---|
@@ -159,11 +159,11 @@ Addressing the imbalance substantially improved recall � the model's ability to 
 | F1-Score | **63.7%** |
 | ROC-AUC | **84.7%** |
 
-**Selected because:** it achieved the best F1-score and ROC-AUC of every model and configuration tested, with the strongest recall � correctly identifying roughly **81% of customers who actually churn**, which matters most in a retention context where missing a churner is costlier than a false alarm.
+**Selected because:** it achieved the best F1-score and ROC-AUC of every model and configuration tested, with the strongest recall — correctly identifying roughly **81% of customers who actually churn**, which matters most in a retention context where missing a churner is costlier than a false alarm.
 
 ---
 
-## ?? Explainable AI (SHAP)
+## 🧠 Explainable AI (SHAP)
 
 ### Global Feature Importance
 
@@ -183,13 +183,13 @@ The top predictors, ranked by mean absolute SHAP value:
 For a sample customer (month-to-month, DSL, electronic check, 17 months tenure), the model predicted a **63.4% churn probability**. SHAP attributed this primarily to:
 
 - **Increasing risk:** electronic check payment (+0.29), no long-term contract (+0.27, +0.17), senior citizen status (+0.13)
-- **Decreasing risk:** not having fiber optic internet (-0.34), moderate monthly charges (-0.06)
+- **Decreasing risk:** not having fiber optic internet (−0.34), moderate monthly charges (−0.06)
 
 ![SHAP Waterfall](images/shap_waterfall.png)
 
 ---
 
-## ?? Streamlit Application
+## 💻 Streamlit Application
 
 ### Dashboard
 Displays total/churned/retained customer counts, churn rate, and interactive charts (churn by contract, tenure, internet service, payment method, and senior citizen status).
@@ -200,7 +200,7 @@ Displays total/churned/retained customer counts, churn rate, and interactive cha
 An interactive form collects customer details and returns:
 - Predicted class (Churn / Stay)
 - Churn probability
-- Risk category (Low / Medium / High, using configurable 40%/70% thresholds)
+- Risk category (Low / Medium / High, stratified at 50% and 75% thresholds)
 - Recommended retention actions based on risk level
 
 | High Risk Prediction | Low Risk Prediction |
@@ -211,18 +211,18 @@ An interactive form collects customer details and returns:
 
 ---
 
-## ?? Installation & Setup
+## ⚙️ Installation & Setup
 
 ```bash
 # Clone the repository
 git clone https://github.com/Deneshkar/customer_churn_ai.git
-cd customer-churn-ai
+cd customer_churn_ai
 
 # Install dependencies
 pip install -r requirements.txt
 ```
 
-## ?? How to Run
+## ▶️ How to Run
 
 ```bash
 cd app
@@ -233,13 +233,13 @@ The app will open automatically in your browser at `http://localhost:8501`.
 
 ---
 
-## ?? Known Limitations
+## ⚠️ Known Limitations
 
 - The prediction form allows some logically inconsistent input combinations (e.g., "No Phone Service" alongside "Multiple Lines: No") that don't occur in the training data. The pipeline handles these gracefully without crashing, but predictions on such inputs are extrapolations beyond the model's training distribution.
-- Model performance (F1 � 0.64) reflects a genuine, moderate-imbalance classification problem � it is not a "solved" prediction, and should be treated as a decision-support signal, not a certainty.
-- Risk thresholds (40% / 70%) are illustrative defaults, not derived from a specific business cost-benefit analysis.
+- Model performance (F1 ≈ 0.64) reflects a genuine, moderate-imbalance classification problem — it is not a "solved" prediction, and should be treated as a decision-support signal, not a certainty.
+- Risk thresholds (50% / 75%) are illustrative defaults, not derived from a specific business cost-benefit analysis.
 
-## ?? Future Improvements
+## 🚀 Future Improvements
 
 - Add input validation to prevent logically inconsistent form combinations
 - Deploy to Streamlit Community Cloud for public access
@@ -249,9 +249,9 @@ The app will open automatically in your browser at `http://localhost:8501`.
 
 ---
 
-## ?? Author
+## 👤 Author
 
 **Deneshkar Punyamoorthy**  
 Full Stack Developer | Software Engineering Undergraduate, SLIIT  
 
-[LinkedIn](https://www.linkedin.com/in/deneshkar-punyamoorthy-450931350) � [GitHub](https://github.com/Deneshkar) � [Portfolio](https://deneshkar.github.io/my-portfolio/)
+[LinkedIn](https://www.linkedin.com/in/deneshkar-punyamoorthy-450931350) · [GitHub](https://github.com/Deneshkar) · [Portfolio](https://deneshkar.github.io/my-portfolio/)

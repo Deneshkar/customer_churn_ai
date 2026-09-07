@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
+import os
 import plotly.express as px
 import shap
 
@@ -18,6 +19,14 @@ st.set_page_config(
     page_icon="📊",
     layout="wide"
 )
+
+
+# ============================================================
+# BASE DIRECTORY (makes file paths work regardless of where
+# the app is launched from — required for cloud deployment)
+# ============================================================
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 # ============================================================
@@ -75,14 +84,14 @@ def load_model():
 
     # Load preprocessing pipeline
     preprocessor = joblib.load(
-        "../models/preprocessor.joblib"
+        os.path.join(BASE_DIR, "..", "models", "preprocessor.joblib")
     )
 
     # Load trained XGBoost model
     xgb_model = XGBClassifier()
 
     xgb_model.load_model(
-        "../models/xgb_model.json"
+        os.path.join(BASE_DIR, "..", "models", "xgb_model.json")
     )
 
     # Combine preprocessing + model
@@ -104,7 +113,7 @@ def load_model():
 def load_data():
 
     df = pd.read_csv(
-        "../data/WA_Fn-UseC_-Telco-Customer-Churn.csv"
+        os.path.join(BASE_DIR, "..", "data", "WA_Fn-UseC_-Telco-Customer-Churn.csv")
     )
 
     # Convert TotalCharges to numeric

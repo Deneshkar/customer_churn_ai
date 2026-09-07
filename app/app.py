@@ -4,7 +4,6 @@ import numpy as np
 import joblib
 import os
 import plotly.express as px
-import shap
 
 from xgboost import XGBClassifier
 from sklearn.pipeline import Pipeline
